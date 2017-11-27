@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ParamerSetting</string>
+    <string name="title_activity_main2">实时监测</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="change">切换设备</string>
+</resources>
