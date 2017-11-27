@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 public class ImageActivity extends AppCompatActivity {
 
-    private ImageView ivContent;
+    private ImageView ivContent;//添加了
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
