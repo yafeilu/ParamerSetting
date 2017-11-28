@@ -217,7 +217,7 @@ public class Main2Activity extends BasedActivity
                 item.setTitle("打开加湿");
                 isWetOpen=true;
             }
-//            tcpClint.controllCW("#CP");
+            TcpManager.getInstance().controlCW("#CW");
         }else if(id == R.id.action_cp){
             if (isPaiOpen){
                 item.setTitle("关闭排风");
@@ -226,7 +226,7 @@ public class Main2Activity extends BasedActivity
                 item.setTitle("打开排风");
                 isPaiOpen=true;
             }
-//            tcpClint.controllCP("#CW");
+            TcpManager.getInstance().controlCW("#CP");
         }
 
         return super.onOptionsItemSelected(item);

@@ -53,6 +53,7 @@ public class TcpManager {
         new Thread(new GetAvailableByte()).start();//接收数据的线程
     }
     public void endImage(String IP,int port,String pra){
+        imageListener=null;
         new Thread(new TcpClint(pra)).start();
     }
     public void getJson(String IP,int port,String pra,GetDataListener getDataListener){
@@ -62,7 +63,13 @@ public class TcpManager {
         new Thread(new TcpClint(pra)).start();//发送数据的线程
         new Thread(new GetDataThread()).start();//接收数据的线程
     }
+    public void controlCW(String s) {
+        new Thread(new TcpClint(s)).start();//发送数据的线程
+    }
 
+    public void controlCP(String s) {
+        new Thread(new TcpClint(s)).start();//发送数据的线程
+    }
     private class GetDataThread implements Runnable{
         InputStreamReader isr=null;
         @Override
@@ -79,6 +86,7 @@ public class TcpManager {
                         if (getDataListener!=null){
                             Log.d("yafei", "run: jieshou 222");
                             getDataListener.showData(sb.toString());
+                            getDataListener=null;
                         }
                         return;
                     }
