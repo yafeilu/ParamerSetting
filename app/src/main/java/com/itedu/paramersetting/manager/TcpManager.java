@@ -1,8 +1,10 @@
-package com.itedu.getimage;
+package com.itedu.paramersetting.manager;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.itedu.paramersetting.bean.BitmapMagager;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
@@ -19,11 +21,11 @@ import java.net.SocketTimeoutException;
  * Created by luyafei on 2017/11/24.
  */
 
-public class TcpManager{
-    private String IP;
-    private int port;
+public class TcpManager {
+    private String IP="192.168.0.212";
+    private int port=1030;
     private GetImageListener imageListener;
-    private TcpManager (){}
+    private TcpManager(){}
     private static TcpManager instance;
     private Socket socket=null;
     private byte[] brr = new byte[1024*40];
@@ -38,16 +40,19 @@ public class TcpManager{
         }
         return instance;
     }
+    public void setIP(String IP) {
+        this.IP = IP;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
     public void getImage(String IP,int port,String pra,GetImageListener imageListener){
-        this.IP=IP;
-        this.port=port;
         this.imageListener=imageListener;
         new Thread(new TcpClint(pra)).start();//发送数据的线程
         new Thread(new GetAvailableByte()).start();//接收数据的线程
     }
     public void endImage(String IP,int port,String pra){
-        this.IP=IP;
-        this.port=port;
         new Thread(new TcpClint(pra)).start();
     }
     public void getJson(String IP,int port,String pra,GetDataListener getDataListener){

@@ -49,31 +49,31 @@ public class CurveActivity extends BasedActivity {
     private String currentTime;
     private String currentHour;
 
-    @Override
-    protected void failed() {
-//        setContentView();
-    }
+//    @Override
+//    protected void failed() {
+////        setContentView();
+//    }
 
     @Override
     public void onContentChanged() {//setContentView执行完会过来回调这个方法。
         super.onContentChanged();
     }
 
-    @Override
-    protected void showData(String data) {
-        Log.d("yafei", "showData: 曲线");
-        List<Model> models = parseJson(data);
-//        if (models.size()<7){
-//            models.add(new Model("123",23));
-//            models.add(new Model("123",23));
+//    @Override
+//    protected void showData(String data) {
+//        Log.d("yafei", "showData: 曲线");
+//        List<Model> models = parseJson(data);
+////        if (models.size()<7){
+////            models.add(new Model("123",23));
+////            models.add(new Model("123",23));
+////        }
+//        if(models!=null && models.size()>7){
+//            chart.setDatas(models);
+//        }else{
+//            Toast.makeText(this, "数据不合法", Toast.LENGTH_SHORT).show();
 //        }
-        if(models!=null && models.size()>7){
-            chart.setDatas(models);
-        }else{
-            Toast.makeText(this, "数据不合法", Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//
+//    }
 
     private List<Model> parseJson(String data) {
         List<Model> list=new ArrayList<>();
@@ -96,11 +96,11 @@ public class CurveActivity extends BasedActivity {
 //        }
         return list;
     }
-
-    @Override
-    protected void post() {
-        tcpClint.getTemperatureArray(currentTime);
-    }
+//
+//    @Override
+//    protected void post() {
+//        tcpClint.getTemperatureArray(currentTime);
+//    }
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_curve;
@@ -108,7 +108,7 @@ public class CurveActivity extends BasedActivity {
 
     @Override
     protected void initView() {
-        tcpClint.connect(ip,port);
+//        tcpClint.connect(ip,port);
         Date date=new Date(System.currentTimeMillis());
         Log.d("yafei", "initView:"+date.getHours());
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyyMMddHH");
@@ -133,7 +133,7 @@ public class CurveActivity extends BasedActivity {
                     tvEnd.setText((year+1970)+"年"+String.format("%02d", month+1)+"月"+String.format("%02d", day+1)+"日"+String.format("%02d", hour+12)+"时");
                     currentTime=""+(year+1970)+String.format("%02d", month+1)+String.format("%02d", day+1)+currentHour+String.format("%02d", hour+12);
                     Log.d("mogu", "initView:实际值 "+currentTime);
-                    tcpClint.connect(ip,port);
+//                    tcpClint.connect(ip,port);
                 }else{//点击开始时间
                     currentHour = String.format("%02d", hour+12);
                     tvStart.setText((year+1970)+"年"+String.format("%02d", month+1)+"月"+String.format("%02d", day+1)+"日"+String.format("%02d", hour+12)+"时");

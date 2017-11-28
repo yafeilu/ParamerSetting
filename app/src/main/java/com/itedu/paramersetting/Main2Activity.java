@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.itedu.paramersetting.bean.HomeInfo;
+import com.itedu.paramersetting.manager.TcpManager;
 import com.itedu.paramersetting.view.DevicePickerDialog;
 
 import org.json.JSONException;
@@ -49,36 +50,6 @@ public class Main2Activity extends BasedActivity
     private String currentId="01";
     private DevicePickerDialog devicePickerDialog;
     private HomeInfo homeInfo;
-
-    @Override
-    protected void failed() {
-        if (srRefresh.isRefreshing()){
-            srRefresh.setRefreshing(false);
-        }
-        Toast.makeText(this, "联网失败", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void showData(String data) {//拿到服务器的数据
-        if (srRefresh.isRefreshing()){
-            srRefresh.setRefreshing(false);
-        }
-        Date date=new Date(System.currentTimeMillis());
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM月dd日HH时mm分");
-        tvTime.setText("更新于："+simpleDateFormat.format(date));
-        tvId.setText("当前设备号："+currentId);
-        Log.d("yafei", "showData: "+data);
-        homeInfo = parseJson(data);
-        if(homeInfo ==null){
-            return;
-        }
-//        tvTemp.setText(homeInfo.getTemperature()+"");
-//        tvAir.setText(homeInfo.getAir()+"");
-//        tvGas.setText(homeInfo.getGas()+"");
-//        tvIllumination.setText(homeInfo.getIllumination()+"");
-//        tvWet.setText(homeInfo.getWet()+"");
-    }
-
     private HomeInfo parseJson(String data) {
         HomeInfo homeInfo=null;
         JSONObject jsonObject= null;
@@ -98,12 +69,6 @@ public class Main2Activity extends BasedActivity
         }
         return homeInfo;
     }
-
-    @Override
-    protected void post() {
-        tcpClint.getSingleParameter(currentId);
-    }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_main2;
@@ -127,7 +92,6 @@ public class Main2Activity extends BasedActivity
         tvTemp = (TextView) findViewById(R.id.tv_temp);
         srRefresh=(SwipeRefreshLayout)findViewById(R.id.sr_refresh);
         setSupportActionBar(toolbar);
-        Log.d("yafei", "onCreate: "+tcpClint.toString());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,8 +158,8 @@ public class Main2Activity extends BasedActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        tcpClint.setIP(etIP.getText().toString());
-        tcpClint.setPort(Integer.valueOf(etPort.getText().toString()));
+        TcpManager.getInstance().setIP(etIP.getText().toString());
+        TcpManager.getInstance().setPort(Integer.valueOf(etPort.getText().toString()));
     }
 
     @Override
@@ -253,7 +217,7 @@ public class Main2Activity extends BasedActivity
                 item.setTitle("打开加湿");
                 isWetOpen=true;
             }
-            tcpClint.controllCW("#CP");
+//            tcpClint.controllCW("#CP");
         }else if(id == R.id.action_cp){
             if (isPaiOpen){
                 item.setTitle("关闭排风");
@@ -262,7 +226,7 @@ public class Main2Activity extends BasedActivity
                 item.setTitle("打开排风");
                 isPaiOpen=true;
             }
-            tcpClint.controllCP("#CW");
+//            tcpClint.controllCP("#CW");
         }
 
         return super.onOptionsItemSelected(item);
@@ -297,7 +261,59 @@ public class Main2Activity extends BasedActivity
     }
 
     private void connectServer() {
-            tcpClint.connect(etIP.getText().toString(),Integer.valueOf(etPort.getText().toString()));
+//            tcpClint.connect(etIP.getText().toString(),Integer.valueOf(etPort.getText().toString()));
+        TcpManager.getInstance().getJson(etIP.getText().toString(), Integer.valueOf(etPort.getText().toString()), "#1"+currentId, new TcpManager.GetDataListener() {
+            @Override
+            public void showData(final String result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        netResultShow(result);
+                    }
+                });
 
+            }
+            @Override
+            public void success() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(Main2Activity.this, "数据更新成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void timeOut() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (srRefresh.isRefreshing()){
+                            srRefresh.setRefreshing(false);
+                        }
+                        Toast.makeText(Main2Activity.this, "请求超时", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void netResultShow(String result) {
+        if (srRefresh.isRefreshing()){
+            srRefresh.setRefreshing(false);
+        }
+        Date date=new Date(System.currentTimeMillis());
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM月dd日HH时mm分");
+        tvTime.setText("更新于："+simpleDateFormat.format(date));
+        tvId.setText("当前设备号："+currentId);
+        homeInfo = parseJson(result);
+        if(homeInfo ==null){
+            return;
+        }
+        tvTemp.setText(homeInfo.getTemperature()+"");
+        tvAir.setText(homeInfo.getAir()+"");
+        tvGas.setText(homeInfo.getGas()+"");
+        tvIllumination.setText(homeInfo.getIllumination()+"");
+        tvWet.setText(homeInfo.getWet()+"");
     }
 }
