@@ -226,7 +226,10 @@ public class TcpManager {
 
         @Override
         public void run() {
-           if (bytes==null){
+           if (bytes==null ){
+               return;
+           }
+           if (bytes.get()==null){
                return;
            }
             for (int i = 0; i< count1; i++){

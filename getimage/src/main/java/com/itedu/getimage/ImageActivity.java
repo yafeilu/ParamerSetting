@@ -1,11 +1,16 @@
 package com.itedu.getimage;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -19,55 +24,26 @@ public class ImageActivity extends AppCompatActivity {
         findViewById(R.id.btn_get).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TcpManager.getInstance().getImage("192.168.0.212", 1030,"#3", new TcpManager.GetImageListener() {
-//                    @Override
-//                    public void success() {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(ImageActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void timeOut() {
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                Toast.makeText(ImageActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void showImage() {
-//                       runOnUiThread(new Runnable() {
-//                           @Override
-//                           public void run() {
-//                               ivContent.setImageBitmap(BitmapMagager.getInstance().getBitmap());
-//                           }
-//                       });
-//                    }
-//                });
-                TcpManager.getInstance().getJson("192.168.0.212", 1030, "#101", new TcpManager.GetDataListener() {
-                    @Override
-                    public void success() {
-                        Log.d("yafei", "showData: 成功");
-                    }
-
-                    @Override
-                    public void timeOut() {
-                        Log.d("yafei", "showData: 失败");
-                    }
-
-                    @Override
-                    public void showData(String result) {
-                        Log.d("yafei", "showData: "+result);
-                    }
-                });
+                timer.schedule(task, 0, 2300);
             }
         });
 
+    }
+    Timer timer = new Timer();
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            // TODO Auto-generated method stub
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    showAnimation();
+                }
+            });
+        }
+    };
+    private void showAnimation() {
+        Animator animator = AnimatorInflater.loadAnimator(ImageActivity.this, R.animator.xinshou);
+        animator.setTarget(ivContent);
+        animator.start();
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#123456"
     tools:context="com.itedu.getimage.ImageActivity">
 
     <Button
@@ -17,6 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iv_content"
+        android:src="@mipmap/xinshou"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
         android:layout_centerInParent="true"
         />
 </RelativeLayout>
