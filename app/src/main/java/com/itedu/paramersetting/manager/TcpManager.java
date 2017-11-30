@@ -77,14 +77,14 @@ public class TcpManager {
             while (true){
                 try {
                     if (socket!=null){
-                        Log.d("yafei", "run: jieshou ");
+//                        Log.d("yafei", "run: jieshou ");
                         isr=new InputStreamReader(socket.getInputStream());
                         StringBuilder sb=new StringBuilder();
-                        char[] data=new char[1024];
+                        char[] data=new char[1024*10];
                         int len=isr.read(data);
                         sb.append(data,0,len);
                         if (getDataListener!=null){
-                            Log.d("yafei", "run: jieshou 222");
+                            Log.d("yafei", "run: jieshou 222"+sb.toString());
                             getDataListener.showData(sb.toString());
                             getDataListener=null;
                         }

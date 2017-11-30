@@ -9,10 +9,19 @@ public class CurveDataList {
 
 
     private int airQuality186; // FIXME check this code
-    private int humidity;
-    private int temperature;
+    private String humidity;
+    private String temperature;
     private String time;
-    private int toxic_gas;
+    private String toxic_gas;
+    private String wet;//目前没有湿度字段，以后添加使用wet
+
+    public String getWet() {
+        return wet;
+    }
+
+    public void setWet(String wet) {
+        this.wet = wet;
+    }
 
     public int getAirQuality() {
         return airQuality186;
@@ -22,19 +31,19 @@ public class CurveDataList {
         this.airQuality186 = airQuality186;
     }
 
-    public int getHumidity() {
+    public String getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(String humidity) {
         this.humidity = humidity;
     }
 
-    public int getTemperature() {
+    public String getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(String temperature) {
         this.temperature = temperature;
     }
 
@@ -46,11 +55,11 @@ public class CurveDataList {
         this.time = time;
     }
 
-    public int getToxic_gas() {
+    public String getToxic_gas() {
         return toxic_gas;
     }
 
-    public void setToxic_gas(int toxic_gas) {
+    public void setToxic_gas(String toxic_gas) {
         this.toxic_gas = toxic_gas;
     }
 }

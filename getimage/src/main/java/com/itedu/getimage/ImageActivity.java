@@ -18,13 +18,14 @@ public class ImageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ivContent = (ImageView) findViewById(R.id.iv_content);
         findViewById(R.id.btn_get).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timer.schedule(task, 0, 2300);
+                timer.schedule(task, 0, 2300);//这一句写到onCreate里边，一定卸载findVIewByID后边
             }
         });
 
@@ -43,7 +44,13 @@ public class ImageActivity extends AppCompatActivity {
     };
     private void showAnimation() {
         Animator animator = AnimatorInflater.loadAnimator(ImageActivity.this, R.animator.xinshou);
-        animator.setTarget(ivContent);
+        animator.setTarget(ivContent);//这个就是要做动画的目标
         animator.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        timer.cancel();//页面关闭取消定时任务
+        super.onDestroy();
     }
 }

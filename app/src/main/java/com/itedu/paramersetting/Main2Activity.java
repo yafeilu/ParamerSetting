@@ -180,6 +180,7 @@ public class Main2Activity extends BasedActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        Log.d("yafie", "onCreateOptionsMenu: 创建菜单");
         getMenuInflater().inflate(R.menu.main2, menu);
         if (homeInfo==null){
             return true;
@@ -255,7 +256,14 @@ public class Main2Activity extends BasedActivity
                 connectServer();
                 break;
             case R.id.rl_temperature:
-                startActivity(new Intent(this,CurveActivity.class));
+                Intent intentTemp= new Intent(this, CurveActivity.class);
+                intentTemp.putExtra("label","temp");
+                startActivity(intentTemp);
+                break;
+            case R.id.rl_wet:
+                Intent intentWet= new Intent(this, CurveActivity.class);
+                intentWet.putExtra("label","wet");
+                startActivity(intentWet);
                 break;
         }
     }
@@ -278,6 +286,9 @@ public class Main2Activity extends BasedActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(srRefresh.isRefreshing()){
+                            srRefresh.setRefreshing(false);
+                        }
                         Toast.makeText(Main2Activity.this, "数据更新成功", Toast.LENGTH_SHORT).show();
                     }
                 });

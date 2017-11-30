@@ -29,6 +29,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 这个页面记录历史立记录，以曲线的形式展示出来，根据上个页面传递过来的label区分
+ */
 public class CurveActivity extends BasedActivity {
     private Chart chart;
     /**
@@ -41,13 +44,14 @@ public class CurveActivity extends BasedActivity {
      * 服务器Ip和端口
      */
     private int port =5555;
-    private String ip="123.207.17.225";
-
+//    private String ip="123.207.17.225";
+    private String ip="192.168.0.113";
     /**
      * 记录曲线要展示的时间段
      */
     private String currentTime;
     private String currentHour;
+    private String label;//判断是温度还是湿度
 
     @Override
     public void onContentChanged() {//setContentView执行完会过来回调这个方法。
@@ -60,8 +64,13 @@ public class CurveActivity extends BasedActivity {
         Gson gson=new Gson();
         ArrayList<CurveDataList> list1=gson.fromJson(data, type);
         for (CurveDataList curve:list1) {
-            String[] split = curve.getTime().split(":");
-            list.add(new Model(split[1],curve.getTemperature()));
+            String[] split = curve.getTime().split(":");//把时间切割取出小时显示在横轴上
+            if("wet".equals(label)){
+                list.add(new Model(split[1],Float.valueOf(curve.getWet())));
+            }else{
+                list.add(new Model(split[1],Float.valueOf(curve.getTemperature())));
+            }
+
         }
         return list;
     }
@@ -72,10 +81,16 @@ public class CurveActivity extends BasedActivity {
 
     @Override
     protected void initView() {
+        label = getIntent().getStringExtra("label");
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        if("wet".equals(label)){
+            tvTitle.setText("湿度值时间关系图");
+        }
         Date date=new Date(System.currentTimeMillis());
         Log.d("yafei", "initView:"+date.getHours());
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyyMMddHH");
-        currentTime=dateFormat.format(date)+(String.format("%02d", date.getHours()-1));//实际值
+//        currentTime=dateFormat.format(date)+(String.format("%02d", date.getHours()-1));//实际值
+        currentTime="201711291617";
         Log.d("mogu", "initView:实际值 "+currentTime);
 //        currentTime="201711141012";//测试值
         Log.d("mogu", "initView:测试值 "+currentTime);
@@ -137,14 +152,12 @@ public class CurveActivity extends BasedActivity {
         com.itedu.paramersetting.manager.TcpManager.getInstance().getJson(ip, port, "&" + currentTime, new com.itedu.paramersetting.manager.TcpManager.GetDataListener() {
             @Override
             public void showData(final String result) {
+                Log.d("yafie", "showData: "+currentTime);
+                Log.d("yafei", "showData: "+result);
                runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
                        List<Model> models = parseJson(result);
-                       //        if (models.size()<7){
-                       //            models.add(new Model("123",23));
-                       //            models.add(new Model("123",23));
-                       //        }
                        if(models!=null && models.size()>7){
                            chart.setDatas(models);
                        }else{

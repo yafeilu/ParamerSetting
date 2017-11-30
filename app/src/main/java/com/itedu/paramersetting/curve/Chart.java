@@ -415,7 +415,7 @@ public class Chart extends View implements View.OnTouchListener {
 //            Log.e(TAG, "onDraw: "+y+"#"+perY+"$"+bottomY+"$"+topY );
 
             //绘制x坐标轴
-            canvas.drawText(label,x,getHeight()-getPaddingBottom()-labelXHeight*1.8f,labelXPaint);
+//            canvas.drawText(label,x,getHeight()-getPaddingBottom()-labelXHeight*1.8f,labelXPaint);
         }
         //绘制曲线图
         if(playAnim){
