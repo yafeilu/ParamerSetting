@@ -44,8 +44,8 @@ public class CurveActivity extends BasedActivity {
      * 服务器Ip和端口
      */
     private int port =5555;
-//    private String ip="123.207.17.225";
-    private String ip="192.168.0.113";
+    private String ip="123.207.17.225";
+//    private String ip="192.168.0.113";
     /**
      * 记录曲线要展示的时间段
      */
@@ -88,8 +88,8 @@ public class CurveActivity extends BasedActivity {
         }
         Date date=new Date(System.currentTimeMillis());
         Log.d("yafei", "initView:"+date.getHours());
-        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyyMMddHH");
-//        currentTime=dateFormat.format(date)+(String.format("%02d", date.getHours()-1));//实际值
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyyMMdd");
+        currentTime=dateFormat.format(date)+(String.format("%02d", date.getHours()-1))+(String.format("%02d", date.getHours()));//实际值
         currentTime="201711291617";
         Log.d("mogu", "initView:实际值 "+currentTime);
 //        currentTime="201711141012";//测试值

@@ -176,27 +176,33 @@ public class Main2Activity extends BasedActivity
             super.onBackPressed();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         Log.d("yafie", "onCreateOptionsMenu: 创建菜单");
         getMenuInflater().inflate(R.menu.main2, menu);
-        if (homeInfo==null){
-            return true;
-        }
-        if (homeInfo.getGasctl()==0){
-            menu.getItem(R.id.action_cp).setTitle("打开排风扇");
-        }else{
-            menu.getItem(R.id.action_cp).setTitle("关闭排风扇");
-        }
-        if (homeInfo.getWetctl()==0){
-            menu.getItem(R.id.action_cw).setTitle("打开加湿器");
-        }else{
-            menu.getItem(R.id.action_cw).setTitle("关闭加湿器");
-        }
         return true;
     }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Log.d("yafei", "onMenuOpened: ");
+//        if (homeInfo!=null){
+//            if (homeInfo.getGasctl()==0){
+//                this.menu.getItem(R.id.action_cp).setTitle("打开排风扇");
+//            }else{
+//                this.menu.getItem(R.id.action_cp).setTitle("关闭排风扇");
+//            }
+//            if (homeInfo.getWetctl()==0){
+//                this.menu.getItem(R.id.action_cw).setTitle("打开加湿器");
+//            }else{
+//                this.menu.getItem(R.id.action_cw).setTitle("关闭加湿器");
+//            }
+//        }
+        return super.onMenuOpened(featureId, menu);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -261,9 +267,9 @@ public class Main2Activity extends BasedActivity
                 startActivity(intentTemp);
                 break;
             case R.id.rl_wet:
-                Intent intentWet= new Intent(this, CurveActivity.class);
-                intentWet.putExtra("label","wet");
-                startActivity(intentWet);
+//                Intent intentWet= new Intent(this, CurveActivity.class);
+//                intentWet.putExtra("label","wet");
+//                startActivity(intentWet);
                 break;
         }
     }
